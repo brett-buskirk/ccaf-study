@@ -1,0 +1,23 @@
+# Dependencies and environments
+node_modules/
+.venv/
+__pycache__/
+
+# Secrets
+.env
+.env.*
+
+# Output the builds generate
+results.json
+labels.json
+samples/
+state/
+reports/
+pr.diff
+prior.json
+prompt.txt
+out.json
+
+# OS and editor noise
+.DS_Store
+*.swp
