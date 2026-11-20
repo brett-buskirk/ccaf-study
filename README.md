@@ -8,7 +8,7 @@ This is an unofficial study aid. It is not affiliated with or endorsed by Anthro
 
 ## The builds
 
-Each directory holds one `README.md` with step-by-step instructions. You write all the code yourself by following along; no finished solutions are checked in.
+Each directory holds a `README.md` with step-by-step instructions and a `solution/` folder with the finished code. Write the code yourself by following the guide, and open the solution only when you're stuck or want to compare. Typing it out is where the learning happens.
 
 | Build | What you make | Stack | Exam domains | Time |
 | --- | --- | --- | --- | --- |
@@ -34,7 +34,7 @@ Do them in order. Build 4 reuses patterns from Build 1, and each guide assumes y
 - Claude Code installed and signed in, the `gh` CLI, and `jq` for Build 2.
 - The official exam guide, from Anthropic. The task-statement numbers in these guides (such as 1.4 or 5.2) refer to it.
 
-Do your work for Builds 1, 3, and 4 inside each build's directory. The repo's `.gitignore` already excludes dependencies, virtual environments, and the output files the builds generate.
+Do your work for Builds 1, 3, and 4 in a new folder inside each build's directory, next to `solution/`. The repo's `.gitignore` already excludes dependencies, virtual environments, and the output files the builds generate.
 
 Build 2 is the exception. It has you create a separate scratch repository and push it to GitHub, so make that one outside this repo to avoid nesting one git repository inside another.
 

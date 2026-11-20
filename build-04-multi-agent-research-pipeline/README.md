@@ -1,6 +1,6 @@
 # Build 4: Multi-Agent Research Pipeline — Step-by-Step
 
-[Back to the study guide](../README.md) · Last revised Nov 18, 2026
+[Back to the study guide](../README.md) · Last revised Nov 18, 2026 · [Finished code](solution/README.md)
 
 ## What you're building
 

@@ -1,0 +1,1 @@
+- When you explain a concept to me, use an infrastructure analogy.

@@ -1,6 +1,6 @@
 # Build 2: Claude Code Team Setup and CI Review — Step-by-Step
 
-[Back to the study guide](../README.md) · Last revised Nov 15, 2026
+[Back to the study guide](../README.md) · Last revised Nov 15, 2026 · [Finished code](solution/README.md)
 
 ## What you're building
 

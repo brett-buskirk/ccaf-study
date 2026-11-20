@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "properties": {
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "file": { "type": "string" },
+          "line": { "type": "integer" },
+          "severity": { "type": "string", "enum": ["critical", "high", "medium"] },
+          "category": { "type": "string", "enum": ["bug", "security", "other"] },
+          "category_detail": { "type": ["string", "null"] },
+          "detected_pattern": { "type": "string" },
+          "issue": { "type": "string" },
+          "suggested_fix": { "type": "string" }
+        },
+        "required": ["file", "line", "severity", "category", "category_detail", "detected_pattern", "issue", "suggested_fix"]
+      }
+    }
+  },
+  "required": ["findings"]
+}

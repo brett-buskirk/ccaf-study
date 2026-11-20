@@ -1,0 +1,13 @@
+{
+  "name": "trailhead-api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "tsx --test \"src/**/*.test.ts\""
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
