@@ -33,7 +33,7 @@ Think of the coordinator as a load balancer that also reads the responses. Subag
 
 ## Setup
 
-You need Node 20 or newer and your API key. The project setup matches Build 1.
+You need Node 22 or newer and your API key. The project setup matches Build 1.
 
 ```bash
 mkdir research-team && cd research-team

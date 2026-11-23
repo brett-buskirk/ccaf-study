@@ -33,7 +33,7 @@ Think of Phase A as writing a systemd unit by hand once before you let Ansible t
 
 ## Setup
 
-You need Node 20 or newer and a Claude API key. Everything is TypeScript, run directly with `tsx`, so there is no build step.
+You need Node 22 or newer and a Claude API key. Everything is TypeScript, run directly with `tsx`, so there is no build step.
 
 **Get an API key.** Create one in the Claude Console. API usage is billed separately from a Claude subscription. This build makes a few dozen short requests.
 
@@ -623,7 +623,7 @@ The behavior should match Phase A. The tool names in the log now read `mcp__supp
 Two things the exam guide covers that this build doesn't need yet:
 
 - **`.mcp.json`.** External MCP servers for a team are configured in a project-level `.mcp.json`, with secrets as `${ENV_VAR}` references. Personal ones go in `~/.claude.json`. Build 2 covers this.
-- **Subagents.** The guide says a coordinator's `allowedTools` must include `"Task"`. Current docs list that tool as `Agent`. Answer `Task` on the exam; Build 4 uses it.
+- **Subagents.** The guide says a coordinator's `allowedTools` must include `"Task"`. Current docs list that tool as `Agent`. Answer `Task` on the exam. Build 4 uses the current name, `Agent`.
 
 ## Step 5: Enforce rules in code with hooks
 

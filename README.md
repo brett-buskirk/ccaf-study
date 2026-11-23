@@ -27,10 +27,12 @@ Do them in order. Build 4 reuses patterns from Build 1, and each guide assumes y
 - **Break it on purpose**, near the end. A set of experiments that each reproduce a failure the exam describes.
 - **A checklist** of statements you should be able to explain out loud.
 
+Each guide opens with an analogy from Linux and infrastructure work: a systemd unit, `/etc` versus dotfiles, a firewall rule, a load balancer. They're there as a shortcut if you have that background. You don't need it. Every idea is also explained in plain terms, so skip any analogy that doesn't help.
+
 ## What you need
 
 - A Claude API key. API usage is billed separately from a Claude subscription. Builds 1 and 3 cost little. Build 4 runs several agents per request and costs more per run; its script prints the cost each time.
-- Node 20 or newer for Builds 1, 2, and 4. Python 3.10 or newer for Build 3.
+- Node 22 or newer for Builds 1, 2, and 4. Python 3.10 or newer for Build 3.
 - Claude Code installed and signed in, the `gh` CLI, and `jq` for Build 2.
 - The official exam guide, from Anthropic. The task-statement numbers in these guides (such as 1.4 or 5.2) refer to it.
 
@@ -62,4 +64,10 @@ Each guide has its own "How far this was tested" section with specifics. If a st
 
 ## Notes
 
-These guides were drafted with Claude. Corrections are welcome.
+These guides were drafted with Claude. Corrections are welcome. Please open an issue.
+
+Made by [Brett Buskirk](https://brett-buskirk.dev) while preparing for the exam. This project is independent. It isn't affiliated with, sponsored by, or endorsed by Anthropic or any other company. "Claude" and "Claude Certified Architect" are Anthropic's names, used here only to say what the material is for.
+
+## License
+
+[MIT](LICENSE). You're free to use, copy, adapt, and share this material, including in your own study groups or courses, as long as you keep the copyright notice.
