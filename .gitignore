@@ -1,0 +1,32 @@
+# Dependencies and environments
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Output the builds generate
+# Build 3
+samples/
+labels.json
+results.json
+# Build 4
+state/
+reports/
+# Build 2 CI dry run (only if run inside this repo)
+pr.diff
+prior.json
+prompt.txt
+out.json
+
+# Local Claude Code settings
+.claude/settings.local.json
+
+# Logs, OS and editor noise
+npm-debug.log*
+.DS_Store
+*.swp

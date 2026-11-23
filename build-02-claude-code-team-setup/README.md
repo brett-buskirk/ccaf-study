@@ -30,7 +30,7 @@ Think of it as the difference between `/etc` and a dotfile in your home director
 
 ## Setup
 
-You need Claude Code installed and signed in, Node 20 or newer, `git`, the `gh` CLI, and `jq`. Step 6 also needs a GitHub repo you can push to and an API key stored as a repo secret.
+You need Claude Code installed and signed in, Node 22 or newer, `git`, the `gh` CLI, and `jq`. Step 6 also needs a GitHub repo you can push to and an API key stored as a repo secret.
 
 You'll work in a small scratch repo so each step has something predictable to act on. It has API code, colocated tests, and a Terraform folder, because the exam's examples use exactly those three.
 
