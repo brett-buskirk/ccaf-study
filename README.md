@@ -1,6 +1,6 @@
 # ccaf-study
 
-Hands-on practice builds for the **Claude Certified Architect – Foundations** exam.
+Hands-on practice builds and a practice exam for the **Claude Certified Architect – Foundations** exam.
 
 The exam is scenario-based. It describes a production system that is misbehaving and asks for the root cause or the best fix. Reading about agent loops and tool schemas only gets you so far with questions like that. These four builds have you construct each kind of system the exam describes, then break it on purpose so you recognize the failure when a question describes it.
 
@@ -18,6 +18,12 @@ Each directory holds a `README.md` with step-by-step instructions and a `solutio
 | [04 Multi-agent research pipeline](build-04-multi-agent-research-pipeline/README.md) | A coordinator and three subagents that produce a cited report | TypeScript, Agent SDK | Agentic Architecture, Context and Reliability | 3–4 h |
 
 Do them in order. Build 4 reuses patterns from Build 1, and each guide assumes you have done the ones before it.
+
+## The practice exam
+
+**[Open the practice exam](https://brett-buskirk.github.io/ccaf-study/practice-exam/ccaf-practice.html)**. It's a 150-question quiz covering all 30 task statements. It's one self-contained HTML file. You can use the hosted copy, or download [`ccaf-practice.html`](practice-exam/ccaf-practice.html) and run it offline in any browser, including on a phone, with no install and no account. It tracks your accuracy by domain and task statement, steers questions toward your weak areas, and lets you export progress and move it between devices. The questions were written with Claude from the exam guide's task statements and are not real exam questions. See the [practice exam README](practice-exam/README.md) for how to use it.
+
+Use the builds to learn the material and the quiz to find the gaps. When a task statement keeps coming up red on the quiz, go back to the build that covers it.
 
 ## How each guide is organized
 
