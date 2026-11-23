@@ -4,6 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CCA Foundations practice</title>
+<script>
+// Apply a saved theme before first paint so a dark-mode user doesn't see a white flash.
+try { const t = localStorage.getItem("ccaf-practice-theme"); if (t === "dark" || t === "light") document.documentElement.dataset.theme = t; } catch {}
+</script>
 <style>
 :root {
   --paper: #EDF1F4; --sheet: #F8FAFB; --ink: #13283B; --muted: #55697A; --line: #C3CFD9;
@@ -11,13 +15,27 @@
   --strong: #1B7F55; --mid: #B9860B; --weak: #BF4127; --unseen: transparent;
   --ui: "Avenir Next", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
   --read: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --on-blue: #fff;
+  color-scheme: light;
 }
+/* Dark palette. "Auto" (no data-theme) follows the system setting, and data-theme forces either
+   one. CSS can't share a block between a media query and a selector, so the two copies of the
+   dark tokens below must be kept identical. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --paper: #0F1E2C; --sheet: #162A3C; --ink: #E6EDF3; --muted: #9DB0C0; --line: #33495C;
     --blue: #7FB0F5; --blue-soft: #1F3A57;
     --strong: #4CC08D; --mid: #E0B040; --weak: #F0785C;
+    --on-blue: #0F1E2C;
+    color-scheme: dark;
   }
+}
+:root[data-theme="dark"] {
+  --paper: #0F1E2C; --sheet: #162A3C; --ink: #E6EDF3; --muted: #9DB0C0; --line: #33495C;
+  --blue: #7FB0F5; --blue-soft: #1F3A57;
+  --strong: #4CC08D; --mid: #E0B040; --weak: #F0785C;
+  --on-blue: #0F1E2C;
+  color-scheme: dark;
 }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
@@ -27,7 +45,10 @@ button { font: inherit; color: inherit; }
 .wrap { max-width: 44rem; margin: 0 auto; padding: 0 1rem 4rem; }
 
 header { padding: 1.25rem 0 0; }
-h1 { font-size: 1.05rem; font-weight: 600; margin: 0 0 .75rem; letter-spacing: .01em; }
+.top { display: flex; align-items: baseline; justify-content: space-between; gap: .75rem; margin: 0 0 .75rem; }
+h1 { font-size: 1.05rem; font-weight: 600; margin: 0; letter-spacing: .01em; }
+.theme { flex: none; background: none; border: 1.5px solid var(--line); border-radius: 2rem; padding: .1rem .7rem; font-size: .8rem; color: var(--muted); cursor: pointer; }
+.theme:hover { border-color: var(--blue); color: var(--ink); }
 
 /* The coverage map: one cell per task statement, grouped by domain. */
 .map { display: flex; gap: .625rem; width: 100%; padding: 0; margin: 0; border: 0; background: none; cursor: pointer; text-align: left; }
@@ -63,8 +84,7 @@ main { padding-top: 1.5rem; }
 .after { margin-top: 1.25rem; border-left: 3px solid var(--blue); padding: .1rem 0 .1rem 1rem; }
 .after p { margin: 0 0 .9rem; max-width: 38rem; }
 .row { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; }
-.btn { background: var(--blue); color: #fff; border: 0; border-radius: 6px; padding: .65rem 1.1rem; cursor: pointer; font-weight: 600; }
-@media (prefers-color-scheme: dark) { .btn { color: #0F1E2C; } }
+.btn { background: var(--blue); color: var(--on-blue); border: 0; border-radius: 6px; padding: .65rem 1.1rem; cursor: pointer; font-weight: 600; }
 .btn.quiet { background: none; color: var(--ink); border: 1.5px solid var(--line); font-weight: 400; }
 .btn.danger { background: none; color: var(--weak); border: 1.5px solid var(--weak); font-weight: 400; }
 .note { font-size: .875rem; color: var(--muted); }
@@ -89,25 +109,36 @@ h2:first-child { margin-top: 0; }
 input[type=file] { font: inherit; max-width: 100%; }
 [hidden] { display: none !important; }
 a { color: var(--blue); }
+.linkbtn { background: none; border: 0; padding: 0; color: var(--blue); text-decoration: underline; cursor: pointer; }
+.about p, .about ul { max-width: 38rem; }
+.about p { margin: 0 0 .9rem; }
+.about ul { margin: 0 0 .9rem; padding-left: 1.2rem; }
+.about li { margin: 0 0 .45rem; }
+.about .key { margin: 0 0 .9rem; }
 footer { margin-top: 3rem; border-top: 1px solid var(--line); padding-top: 1rem; }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <h1>Claude Certified Architect, Foundations practice</h1>
+    <div class="top">
+      <h1>Claude Certified Architect, Foundations practice</h1>
+      <button class="theme" id="theme" type="button"></button>
+    </div>
     <button class="map" id="map" aria-label="Coverage map. Open progress."></button>
     <p class="ticker" id="ticker" aria-live="polite"></p>
     <nav role="tablist">
       <button role="tab" data-view="practice" aria-selected="true">Practice</button>
       <button role="tab" data-view="progress" aria-selected="false">Progress</button>
       <button role="tab" data-view="data" aria-selected="false">Your data</button>
+      <button role="tab" data-view="about" aria-selected="false">About</button>
     </nav>
   </header>
   <main>
     <section id="practice"></section>
     <section id="progress" hidden></section>
     <section id="data" hidden></section>
+    <section id="about" class="about" hidden></section>
   </main>
   <footer class="note">
     Unofficial study aid. Not affiliated with or endorsed by Anthropic. The questions were written with Claude from the official exam guide's task statements and are not real exam questions.
@@ -248,7 +279,11 @@ function renderHeader() {
   const ranked = [1, 2, 3, 4, 5].filter((d) => s.dom[d].seen >= 3).sort((a, b) => pct(s.dom[a]) - pct(s.dom[b]));
   const tick = $("ticker");
   tick.replaceChildren();
-  if (!seen) { tick.append("Each square is one exam task statement. They fill in as you answer."); return; }
+  if (!seen) {
+    tick.append("Each square is one exam task statement. They fill in as you answer. New here? ",
+      el("button", { class: "linkbtn", type: "button", onclick: () => show("about") }, "See how this works"), ".");
+    return;
+  }
   tick.append(el("b", {}, `${seen} of ${BANK.length}`), " questions seen");
   if (w != null) tick.append(", ", el("b", {}, `${w}%`), " exam-weighted");
   if (ranked.length >= 2 && pct(s.dom[ranked[0]]) !== pct(s.dom[ranked.at(-1)])) {
@@ -385,12 +420,99 @@ function renderData(message) {
   root.append(box);
 }
 
+// ---------- about view ----------
+// Adapted from practice-exam/README.md for people using the quiz without the repo. Counts come from
+// the bank, so they stay right when questions are added or retired.
+function renderAbout() {
+  const root = $("about");
+  root.replaceChildren();
+  const ul = (...items) => el("ul", {}, items.map((i) => el("li", {}, i)));
+  const b = (text) => el("b", {}, text);
+  const count = (d) => BANK.filter((q) => q.d === d).length;
+  const go = (view, label) => el("button", { class: "linkbtn", type: "button", onclick: () => show(view) }, label);
+
+  root.append(
+    el("p", { class: "lead" }, "A practice quiz for the Claude Certified Architect, Foundations exam. It tracks what you get right and wrong, shows which parts of the exam you're strong and weak in, and steers new questions toward the weak spots."),
+    el("p", {}, `There are ${BANK.length} multiple-choice questions covering all ${TASK_IDS.length} task statements in the exam's five domains. Every question has an explanation, which appears after you answer. Your overall score uses the exam's own domain weights:`),
+    ul(...[1, 2, 3, 4, 5].map((d) => `${d}. ${DOMAINS[d].name}: ${DOMAINS[d].weight}% of the exam, ${count(d)} questions`)),
+
+    el("h2", {}, "How it works"),
+    ul(
+      ["Each question shows its domain and task statement, then four answers in random order. Click one, or press ", b("1–4"), " or ", b("A–D"), "."],
+      [b("That was a guess."), " After a correct answer, tick this if you weren't sure. The question then counts as not yet known and comes back like a miss. Lucky guesses are the main reason practice scores look better than they should."],
+      [b("Favor my weak and unseen areas"), " is on by default. It leans toward the task statements you miss most and the ones you haven't covered yet. Turn it off for an even spread."],
+      "Questions you haven't seen come first. After that, missed and guessed questions come back before ones you got right, oldest first. None of your last 12 questions repeats."),
+    el("p", {}, "The row of squares at the top has one square per task statement. It fills in as you answer:"),
+    el("div", { class: "key" },
+      el("span", {}, el("i", { class: "strong" }), "80% or more"), el("span", {}, el("i", { class: "mid" }), "60 to 79%"),
+      el("span", {}, el("i", { class: "weak" }), "Under 60%"), el("span", {}, el("i", {}), "Not started")),
+    el("p", {}, "Select the map, or open ", go("progress", "Progress"), ", for a breakdown. Select any row there to practice only that area."),
+
+    el("h2", {}, "How scores are calculated"),
+    ul(
+      [b("Only your latest answer to each question counts."), " Fix a miss and your score goes up."],
+      [b("A guess counts as not known,"), " even when it was right."],
+      [b("Scores are out of the questions you've seen, not the whole bank."), " 90% after 20 questions means you knew 18 of those 20. The score doesn't predict an exam result until you've covered most of the bank."],
+      [b("The overall score is weighted by domain,"), " so a weak Domain 1 (27%) costs more than a weak Domain 5 (15%)."]),
+
+    el("h2", {}, "Your progress"),
+    el("p", {}, "Everything stays in this browser on this device. Nothing is sent anywhere. Progress saves automatically, but it doesn't sync between devices, between browsers, or between the online and downloaded copies of this page."),
+    ul(
+      ["To move progress, open ", go("data", "Your data"), ", export on one device, and import the file on the other. Importing merges with what's there and never overwrites."],
+      "You can lose progress by clearing browser data, using a private window, or moving or renaming a downloaded copy. Export now and then, especially on a phone."),
+
+    el("h2", {}, "Getting the most out of it"),
+    ul(
+      [b("Decide before you look at the choices."), " Read the scenario, decide what you'd do, then find the match. The exam is scenario-based and rewards this habit."],
+      [b("Read the explanation even when you're right."), " You might have been right for the wrong reason."],
+      [b("Cover the whole bank before you trust the score,"), " then work the red squares."],
+      [b("Practice little and often."), " Ten questions at a time works better than an hour once a week."],
+      [b("Don't confuse recognition with understanding."), " After a few passes you'll remember these answers. Once you're green everywhere, try explaining why each wrong answer is wrong."]),
+    el("p", {}, "When a whole area stays red, the hands-on builds in the ",
+      el("a", { href: "https://github.com/brett-buskirk/ccaf-study", target: "_blank", rel: "noopener" }, "study guide"),
+      " will teach it better than more questions will."),
+
+    el("h2", {}, "About these questions"),
+    el("p", {}, "This is an unofficial study aid. It isn't affiliated with or endorsed by Anthropic. The questions were written with Claude from the task statements in the official exam guide. They are not real exam questions. Where the exam guide and current Claude tooling disagree, the quiz goes with the exam guide, because that's what the exam grades."),
+    el("p", {}, "Spotted a wrong answer? ",
+      el("a", { href: "https://github.com/brett-buskirk/ccaf-study/issues", target: "_blank", rel: "noopener" }, "Open an issue"),
+      " with the question text."),
+    el("div", { class: "row", style: "margin-top:1.5rem" }, el("button", { class: "btn", type: "button", onclick: () => show("practice") }, "Start practicing")));
+}
+
+// ---------- color theme ----------
+// Stored apart from progress so that erasing or importing progress never changes it.
+// "auto" means no data-theme attribute, so the CSS follows the system setting.
+const THEME_KEY = "ccaf-practice-theme";
+// The first click from Auto goes to the opposite of what the system shows, so it always visibly changes.
+const THEME_LABEL = { auto: "Auto", dark: "Dark", light: "Light" };
+function themeOrder() {
+  const sysDark = window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches;
+  return sysDark ? ["auto", "light", "dark"] : ["auto", "dark", "light"];
+}
+function nextTheme(t) { const o = themeOrder(); return o[(o.indexOf(t) + 1) % o.length]; }
+function currentTheme() { return document.documentElement.dataset.theme || "auto"; }
+function renderTheme() {
+  const t = currentTheme(), next = nextTheme(t);
+  const btn = $("theme");
+  btn.textContent = `Theme: ${THEME_LABEL[t]}`;
+  btn.setAttribute("aria-label", `Color theme: ${THEME_LABEL[t]}. Switch to ${THEME_LABEL[next]}.`);
+}
+function setTheme(t) {
+  if (t === "auto") delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = t;
+  try { if (t === "auto") localStorage.removeItem(THEME_KEY); else localStorage.setItem(THEME_KEY, t); } catch {}
+  renderTheme();
+}
+$("theme").addEventListener("click", () => setTheme(nextTheme(currentTheme())));
+renderTheme();
+
 // ---------- navigation ----------
 function show(view) {
   for (const b of document.querySelectorAll("nav button")) b.setAttribute("aria-selected", String(b.dataset.view === view));
-  for (const v of ["practice", "progress", "data"]) $(v).hidden = v !== view;
+  for (const v of ["practice", "progress", "data", "about"]) $(v).hidden = v !== view;
   if (view === "progress") renderProgress();
   if (view === "data") renderData();
+  if (view === "about") { renderAbout(); window.scrollTo(0, 0); }
 }
 for (const b of document.querySelectorAll("nav button")) b.addEventListener("click", () => show(b.dataset.view));
 $("map").addEventListener("click", () => show("progress"));
