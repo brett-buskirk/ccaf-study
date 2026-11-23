@@ -1,0 +1,11 @@
+{
+  "name": "ccaf-practice-tests",
+  "private": true,
+  "description": "Dev-only tests for ccaf-practice.html. The quiz itself needs no install.",
+  "scripts": {
+    "test": "node test/smoke.cjs"
+  },
+  "devDependencies": {
+    "jsdom": "24.1.3"
+  }
+}

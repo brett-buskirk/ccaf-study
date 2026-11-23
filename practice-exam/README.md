@@ -73,6 +73,14 @@ The square for the current question is outlined. Click the map to open Progress.
 
 The Progress tab shows a bar for each domain and each task statement, plus a **Work on these first** list of your three weakest task statements once you have enough answers. Select any bar to practice only that area. Select **Show all** on the Practice tab to go back to the full bank.
 
+### About
+
+The **About** tab is a short version of this README inside the page itself, for anyone who got the file without the repo. On your first visit, a "See how this works" link under the map takes you there.
+
+### Light and dark themes
+
+The **Theme** button at the top right switches between **Auto**, **Dark**, and **Light**. Auto follows your device's setting. Dark is easier on the eyes at night or in low light. Your choice is remembered in each browser. It's stored separately from your progress, so exporting, importing, or erasing progress doesn't change it.
+
 ### How scores are calculated
 
 - **Only your latest answer to each question counts.** If you miss a question and get it right later, your score goes up. Old misses don't drag it down forever.
@@ -126,6 +134,10 @@ The whole quiz lives in `ccaf-practice.html`. The question bank is the `BANK` ar
 
 Saved progress refers to questions by `id`. When the page loads, it quietly drops saved answers whose `id` is no longer in the bank. So don't rename existing IDs. To retire a question, remove it. To replace one, give the new question a new ID.
 
-Progress is saved under the browser storage key `ccaf-practice-v1`. If you change the format of saved data, change the key too, so old saves aren't misread.
+To check the page after a change, run `npm install && npm test` in `practice-exam/`. The test loads the page in a simulated browser (jsdom) and drives answering, every tab, the About links, theme switching, and erasing progress. It checks behavior, not appearance, so look at the page yourself too. The quiz itself never needs npm.
+
+The About tab's text lives in `renderAbout()` and is adapted from this README. If you change how the quiz behaves, update both. Its question and task counts are computed from the bank, so they never need editing.
+
+Progress is saved under the browser storage key `ccaf-practice-v1`, and the theme choice under `ccaf-practice-theme`. If you change the format of saved data, change the key too, so old saves aren't misread.
 
 The hosted copy is served by GitHub Pages straight from the `main` branch, so a merged change goes live within a few minutes. The empty `.nojekyll` file at the repo root tells Pages to serve files as they are instead of running them through Jekyll. Without it, Jekyll would treat the `${{ … }}` expressions in the Build 2 guide as its own template tags and blank them out. Because Jekyll is off, nothing renders the root README as the site's home page. Instead, the root `index.html` redirects the site's root URL to the quiz.
