@@ -128,4 +128,4 @@ Saved progress refers to questions by `id`. When the page loads, it quietly drop
 
 Progress is saved under the browser storage key `ccaf-practice-v1`. If you change the format of saved data, change the key too, so old saves aren't misread.
 
-The hosted copy is served by GitHub Pages straight from the `main` branch, so a merged change goes live within a few minutes. The empty `.nojekyll` file at the repo root tells Pages to serve files as they are instead of running them through Jekyll. Without it, Jekyll would treat the `${{ … }}` expressions in the Build 2 guide as its own template tags and blank them out.
+The hosted copy is served by GitHub Pages straight from the `main` branch, so a merged change goes live within a few minutes. The empty `.nojekyll` file at the repo root tells Pages to serve files as they are instead of running them through Jekyll. Without it, Jekyll would treat the `${{ … }}` expressions in the Build 2 guide as its own template tags and blank them out. Because Jekyll is off, nothing renders the root README as the site's home page. Instead, the root `index.html` redirects the site's root URL to the quiz.
