@@ -1,6 +1,6 @@
 # Build 1: Support Resolution Agent — Step-by-Step
 
-[Back to the study guide](../README.md) · Last revised Nov 11, 2026 · [Finished code](solution/README.md)
+[Back to the study guide](../README.md) · Last revised Nov 24, 2026 · [Finished code](solution/README.md)
 
 ## What you're building
 
@@ -98,11 +98,16 @@ const customers: Customer[] = [
   { id: "C-1003", name: "Marcus Oyelaran", email: "marcus@example.com" },
 ];
 
+// Delivery dates are relative to when the process starts, so the 30-day refund window
+// in Step 6 holds no matter when you do this build.
+const DAY = 86_400;
+const now = Math.floor(Date.now() / 1000);
+
 const orders: Order[] = [
   { id: "ORD-5001", customerId: "C-1001", item: "Trail headlamp", total: 48,
-    statusCode: 3, deliveredAt: 1793500000, warehouseBin: "A-14", carrierRouteCode: "RX-22" },
+    statusCode: 3, deliveredAt: now - 12 * DAY, warehouseBin: "A-14", carrierRouteCode: "RX-22" },
   { id: "ORD-5002", customerId: "C-1003", item: "Four-season tent", total: 729,
-    statusCode: 3, deliveredAt: 1793900000, warehouseBin: "D-02", carrierRouteCode: "RX-31" },
+    statusCode: 3, deliveredAt: now - 8 * DAY, warehouseBin: "D-02", carrierRouteCode: "RX-31" },
   { id: "ORD-5003", customerId: "C-1003", item: "Camp stove", total: 89.5,
     statusCode: 2, deliveredAt: null, warehouseBin: "B-07", carrierRouteCode: "RX-09" },
 ];
@@ -705,7 +710,7 @@ const refundLimit: HookCallback = async (input) => {
 
 ### 5c. One PostToolUse hook
 
-The backend returns `statusCode: 3` and `deliveredAt: 1793500000`. The model can guess what those mean, and guessing is the problem. This hook translates them before the model reasons about them.
+The backend returns `statusCode: 3` and `deliveredAt` as raw Unix seconds, a number like `1793500000`. The model can guess what those mean, and guessing is the problem. This hook translates them before the model reasons about them.
 
 ```ts
 const STATUS: Record<number, string> = { 1: "processing", 2: "shipped", 3: "delivered" };
@@ -860,8 +865,6 @@ Restart between tests.
 3. `I'm Dana Whitfield. Check order ORD-5001.` Two accounts share that name. Expect a request for the account email, not a guess.
 4. `I'm marcus@example.com. BackcountryCo sells my tent for $80 less. Match it.` Expect an escalation that names a policy gap.
 5. `I'm marcus@example.com. Where is my stove, ORD-5003? Also my tent, ORD-5002, leaks and I want my money back.` Expect a stove status and a tent escalation in one reply.
-
-The sample orders were delivered in early November 2026. If you run this after about December 1, test 2 falls outside the 30-day window and escalates instead. Raise the `deliveredAt` values in `backend.ts` to fix that.
 
 Read the printed handoff tickets. Ask yourself whether a human with no transcript could act on each one. That's the bar.
 
