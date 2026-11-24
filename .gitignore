@@ -9,6 +9,13 @@ __pycache__/
 .env.*
 !.env.example
 
+# Your own work for each build. Anchored to each build's directory so the
+# solution/ folders (including Build 2's solution/trailhead-api/) stay tracked.
+/build-01-support-resolution-agent/support-agent/
+/build-02-claude-code-team-setup/trailhead-api/
+/build-03-structured-extraction-pipeline/extraction/
+/build-04-multi-agent-research-pipeline/research-team/
+
 # Output the builds generate
 # Build 3
 samples/
