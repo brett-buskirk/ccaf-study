@@ -42,7 +42,7 @@ Each guide opens with an analogy from Linux and infrastructure work: a systemd u
 - Claude Code installed and signed in, the `gh` CLI, and `jq` for Build 2.
 - The official exam guide, from Anthropic. The task-statement numbers in these guides (such as 1.4 or 5.2) refer to it.
 
-Do your work for Builds 1, 3, and 4 in a new folder inside each build's directory, next to `solution/`. The repo's `.gitignore` already excludes dependencies, virtual environments, and the output files the builds generate.
+Do your work for Builds 1, 3, and 4 in a new folder inside each build's directory, next to `solution/`, using the folder name the guide's setup step gives: `support-agent/`, `extraction/`, or `research-team/`. The repo's `.gitignore` excludes those folders, so your work stays local and never gets committed if you fork or contribute to this repo. It also excludes dependencies, virtual environments, and the output files the builds generate.
 
 Build 2 is the exception. It has you create a separate scratch repository and push it to GitHub, so make that one outside this repo to avoid nesting one git repository inside another.
 
