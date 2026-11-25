@@ -40,5 +40,16 @@ environment, the way the build guides do. Secret scanning + push protection are 
 repo, so a pushed secret will be blocked; don't rely on that as the control, keep keys out of the diff
 entirely. (Dependencies, virtualenvs, and build output are already covered by `.gitignore`.)
 
+## AgentGate (CI guardrail on every PR)
+**AgentGate** (`.github/workflows/agentgate.yml` + `.agentgate.yml`) reads each PR's diff before a human
+does. Build to it so it confirms your work rather than surprising you:
+- **Hard errors (block the merge):** a committed secret, or one of a set of dangerous code tokens.
+- **Know this quirk:** the dangerous-token rule matches those literal tokens on *added* lines **even in
+  prose or markdown** — so a build guide that spells out, say, a JavaScript eval call, the
+  commit-hook-skip flag, or a child-process exec can trip it. Describe such a token instead of pasting it
+  literally, or have Brett use the admin bypass.
+- **Advisory (warnings, won't block):** out-of-scope edits, oversized diffs, changed dependencies, and
+  source changes shipped without a matching test.
+
 ## When in doubt
 Branch → PR → hand it to Brett. He owns the merge and the final call.
